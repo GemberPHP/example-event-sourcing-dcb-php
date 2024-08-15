@@ -1,0 +1,32 @@
+{
+    "name": "gember/example-event-sourcing-dcb-php",
+    "description": "Example project (Proof of Concept) with Event Sourcing in PHP using the Dynamic Consistency Boundary pattern (DCB)",
+    "license": "MIT",
+    "type": "project",
+    "keywords": [
+        "event-sourcing",
+        "example",
+        "dcb",
+        "dynamic-consistency-boundary",
+        "domain-driven-design",
+        "ddd"
+    ],
+    "authors": [
+        {
+            "name": "Jeroen de Graaf",
+            "email": "hello@jero.work",
+            "homepage": "https://jero.work"
+        }
+    ],
+    "require": {
+        "php": "^8.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gember\\ExampleEventSourcingDcb\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
