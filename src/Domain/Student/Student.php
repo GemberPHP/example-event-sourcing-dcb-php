@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace Gember\ExampleEventSourcingDcb\Domain\Student;
 
+/*
+ * Traditional aggregate root.
+ */
 final class Student implements EventSourcedContext
 {
     use EventSourcedContextBehaviorTrait;
 
-    #[EntityId]
+    /*
+     * Define to which domain identifiers this context belongs to.
+     */
+    #[DomainId]
     private StudentId $studentId;
 
     public static function create(StudentId $studentId): self
@@ -19,6 +25,10 @@ final class Student implements EventSourcedContext
         return $student;
     }
 
+    /*
+     * Change internal state by subscribing to relevant domain events for any of the domain identifiers,
+     * so that this context can apply its business rules.
+     */
     #[DomainEventSubscriber]
     private function onStudentCreatedEvent(StudentCreatedEvent $event): void
     {

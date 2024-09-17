@@ -8,7 +8,7 @@ namespace Gember\ExampleEventSourcingDcb\Domain\Student;
 final readonly class StudentCreatedEvent
 {
     public function __construct(
-        #[EntityId]
+        #[DomainId]
         public string $studentId,
     ) {}
 }

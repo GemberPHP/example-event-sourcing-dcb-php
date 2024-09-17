@@ -11,15 +11,24 @@ use Gember\ExampleEventSourcingDcb\Domain\Student\StudentCreatedEvent;
 use Gember\ExampleEventSourcingDcb\Domain\Student\StudentId;
 use Gember\ExampleEventSourcingDcb\Domain\Student\StudentNotFoundException;
 
+/*
+ * Business decision model based on multiple domain identifiers.
+ */
 final class UnsubscribeStudentFromCourse implements EventSourcedContext
 {
     use EventSourcedContextBehaviorTrait;
 
-    #[EntityId]
+    /*
+     * Define to which domain identifiers this context belongs to.
+     */
+    #[DomainId]
     private CourseId $courseId;
-    #[EntityId]
+    #[DomainId]
     private StudentId $studentId;
 
+    /*
+     * Use private properties to guard idempotency and protect invariants.
+     */
     private bool $isSubscribed;
 
     /**
@@ -28,10 +37,16 @@ final class UnsubscribeStudentFromCourse implements EventSourcedContext
      */
     public function unsubscribe(): void
     {
+        /*
+         * Guard for idempotency.
+         */
         if (!$this->isSubscribed) {
             return;
         }
 
+        /*
+         * Protect invariants (business rules).
+         */
         if (!isset($this->courseId)) {
             throw CourseNotFoundException::create();
         }
@@ -40,9 +55,16 @@ final class UnsubscribeStudentFromCourse implements EventSourcedContext
             throw StudentNotFoundException::create();
         }
 
+        /*
+         * Apply events when all business rules are met.
+         */
         $this->apply(new StudentUnsubscribedFromCourseEvent((string) $this->courseId, (string) $this->studentId));
     }
 
+    /*
+     * Change internal state by subscribing to relevant domain events for any of the domain identifiers,
+     * so that this context can apply its business rules.
+     */
     #[DomainEventSubscriber]
     private function onCourseCreatedEvent(CourseCreatedEvent $event): void
     {
