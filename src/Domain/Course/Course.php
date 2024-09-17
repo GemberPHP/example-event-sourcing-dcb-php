@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Gember\ExampleEventSourcingDcb\Domain\Course;
 
-final class Course implements EventSourcedEntity
+final class Course implements EventSourcedContext
 {
-    use EventSourcedEntityBehaviorTrait;
+    use EventSourcedContextBehaviorTrait;
 
     #[EntityId]
     private CourseId $courseId;

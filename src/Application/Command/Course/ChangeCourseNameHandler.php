@@ -10,10 +10,10 @@ use Gember\ExampleEventSourcingDcb\Domain\Course\CourseId;
 final readonly class ChangeCourseNameHandler
 {
     /**
-     * @param EntityRepository<Course> $repository
+     * @param ContextRepository<Course> $repository
      */
     public function __construct(
-        private EntityRepository $repository,
+        private ContextRepository $repository,
     ) {}
 
     public function __invoke(ChangeCourseNameCommand $command): void

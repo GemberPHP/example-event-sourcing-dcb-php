@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gember\ExampleEventSourcingDcb\Domain\Subscribing;
+namespace Gember\ExampleEventSourcingDcb\Domain\StudentToCourseSubscription;
 
 use Gember\ExampleEventSourcingDcb\Domain\Course\CourseCapacityChangedEvent;
 use Gember\ExampleEventSourcingDcb\Domain\Course\CourseCreatedEvent;
@@ -12,14 +12,15 @@ use Gember\ExampleEventSourcingDcb\Domain\Student\StudentCreatedEvent;
 use Gember\ExampleEventSourcingDcb\Domain\Student\StudentId;
 use Gember\ExampleEventSourcingDcb\Domain\Student\StudentNotFoundException;
 
-final class SubscribeStudentToCourseDecision implements EventSourcedEntity
+final class SubscribeStudentToCourse implements EventSourcedContext
 {
-    use EventSourcedEntityBehaviorTrait;
+    use EventSourcedContextBehaviorTrait;
 
     #[EntityId]
     private CourseId $courseId;
     #[EntityId]
     private StudentId $studentId;
+
     private bool $isSubscribed;
     private int $capacityCount;
     private int $courseSubscriptionCount;

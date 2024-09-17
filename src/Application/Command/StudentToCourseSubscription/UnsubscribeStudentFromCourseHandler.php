@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Gember\ExampleEventSourcingDcb\Application\Command\Subscribing;
+namespace Gember\ExampleEventSourcingDcb\Application\Command\StudentToCourseSubscription;
 
 use Gember\ExampleEventSourcingDcb\Domain\Course\CourseId;
 use Gember\ExampleEventSourcingDcb\Domain\Course\CourseNotFoundException;
 use Gember\ExampleEventSourcingDcb\Domain\Student\StudentId;
 use Gember\ExampleEventSourcingDcb\Domain\Student\StudentNotFoundException;
-use Gember\ExampleEventSourcingDcb\Domain\Subscribing\UnsubscribeStudentFromCourseDecision;
+use Gember\ExampleEventSourcingDcb\Domain\StudentToCourseSubscription\UnsubscribeStudentFromCourse;
 
 final readonly class UnsubscribeStudentFromCourseHandler
 {
     /**
-     * @param EntityRepository<UnsubscribeStudentFromCourseDecision> $repository
+     * @param ContextRepository<UnsubscribeStudentFromCourse> $repository
      */
     public function __construct(
-        private EntityRepository $repository,
+        private ContextRepository $repository,
     ) {}
 
     /**
@@ -26,7 +26,7 @@ final readonly class UnsubscribeStudentFromCourseHandler
     public function __invoke(UnsubscribeStudentFromCourseCommand $command): void
     {
         $decision = $this->repository->get(
-            UnsubscribeStudentFromCourseDecision::class,
+            UnsubscribeStudentFromCourse::class,
             new CourseId($command->courseId),
             new StudentId($command->studentId),
         );

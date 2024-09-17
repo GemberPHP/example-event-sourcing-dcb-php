@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Gember\ExampleEventSourcingDcb\Application\Command\Subscribing;
+namespace Gember\ExampleEventSourcingDcb\Application\Command\StudentToCourseSubscription;
 
 use Gember\ExampleEventSourcingDcb\Domain\Course\CourseId;
 use Gember\ExampleEventSourcingDcb\Domain\Course\CourseNotFoundException;
 use Gember\ExampleEventSourcingDcb\Domain\Student\StudentId;
 use Gember\ExampleEventSourcingDcb\Domain\Student\StudentNotFoundException;
-use Gember\ExampleEventSourcingDcb\Domain\Subscribing\CourseCannotAcceptMoreStudentsException;
-use Gember\ExampleEventSourcingDcb\Domain\Subscribing\StudentCannotSubscribeToMoreCoursesException;
-use Gember\ExampleEventSourcingDcb\Domain\Subscribing\SubscribeStudentToCourseDecision;
+use Gember\ExampleEventSourcingDcb\Domain\StudentToCourseSubscription\CourseCannotAcceptMoreStudentsException;
+use Gember\ExampleEventSourcingDcb\Domain\StudentToCourseSubscription\StudentCannotSubscribeToMoreCoursesException;
+use Gember\ExampleEventSourcingDcb\Domain\StudentToCourseSubscription\SubscribeStudentToCourse;
 
 final readonly class SubscribeStudentToCourseHandler
 {
     /**
-     * @param EntityRepository<SubscribeStudentToCourseDecision> $repository
+     * @param ContextRepository<SubscribeStudentToCourse> $repository
      */
     public function __construct(
-        private EntityRepository $repository,
+        private ContextRepository $repository,
     ) {}
 
     /**
@@ -30,7 +30,7 @@ final readonly class SubscribeStudentToCourseHandler
     public function __invoke(SubscribeStudentToCourseCommand $command): void
     {
         $decision = $this->repository->get(
-            SubscribeStudentToCourseDecision::class,
+            SubscribeStudentToCourse::class,
             new CourseId($command->courseId),
             new StudentId($command->studentId),
         );

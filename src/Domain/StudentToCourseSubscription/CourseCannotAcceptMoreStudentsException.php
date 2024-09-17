@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gember\ExampleEventSourcingDcb\Domain\Subscribing;
+namespace Gember\ExampleEventSourcingDcb\Domain\StudentToCourseSubscription;
 
 use Exception;
 

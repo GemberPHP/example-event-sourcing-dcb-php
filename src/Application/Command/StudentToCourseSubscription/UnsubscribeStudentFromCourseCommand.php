@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gember\ExampleEventSourcingDcb\Application\Command\Subscribing;
+namespace Gember\ExampleEventSourcingDcb\Application\Command\StudentToCourseSubscription;
 
 /**
  * @see SubscribeStudentToCourseHandler

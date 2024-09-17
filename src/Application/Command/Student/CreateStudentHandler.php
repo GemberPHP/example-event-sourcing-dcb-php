@@ -10,10 +10,10 @@ use Gember\ExampleEventSourcingDcb\Domain\Student\StudentId;
 final readonly class CreateStudentHandler
 {
     /**
-     * @param EntityRepository<Student> $repository
+     * @param ContextRepository<Student> $repository
      */
     public function __construct(
-        private EntityRepository $repository,
+        private ContextRepository $repository,
     ) {}
 
     public function __invoke(CreateStudentCommand $command): void
