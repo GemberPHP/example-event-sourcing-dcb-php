@@ -81,7 +81,10 @@ final class UnsubscribeStudentFromCourse implements EventSourcedContext
     #[DomainEventSubscriber]
     private function onStudentSubscribedToCourseEvent(StudentSubscribedToCourseEvent $event): void
     {
-        if ($this->studentId->equals(new StudentId($event->studentId)) && $this->courseId->equals(new CourseId($event->courseId))) {
+        if (isset($this->studentId) &&
+            $this->studentId->equals(new StudentId($event->studentId)) &&
+            $this->courseId->equals(new CourseId($event->courseId))
+        ) {
             $this->isSubscribed = true;
         }
     }
@@ -89,7 +92,10 @@ final class UnsubscribeStudentFromCourse implements EventSourcedContext
     #[DomainEventSubscriber]
     private function onStudentUnsubscribedFromCourseEvent(StudentUnsubscribedFromCourseEvent $event): void
     {
-        if ($this->studentId->equals(new StudentId($event->studentId)) && $this->courseId->equals(new CourseId($event->courseId))) {
+        if (isset($this->studentId) &&
+            $this->studentId->equals(new StudentId($event->studentId)) &&
+            $this->courseId->equals(new CourseId($event->courseId))
+        ) {
             $this->isSubscribed = false;
         }
     }

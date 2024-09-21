@@ -55,6 +55,7 @@ final class ChangeCourseCapacity implements EventSourcedContext
     private function onCourseCreatedEvent(CourseCreatedEvent $event): void
     {
         $this->courseId = new CourseId($event->courseId);
+        $this->capacity = $event->capacity;
     }
 
     #[DomainEventSubscriber]

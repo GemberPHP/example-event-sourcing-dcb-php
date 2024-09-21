@@ -61,7 +61,7 @@ final class SubscribeStudentToCourse implements EventSourcedContext
             throw StudentNotFoundException::create();
         }
 
-        if ($this->capacityCount >= $this->courseSubscriptionCount) {
+        if ($this->courseSubscriptionCount >= $this->capacityCount) {
             throw CourseCannotAcceptMoreStudentsException::create();
         }
 
@@ -74,7 +74,7 @@ final class SubscribeStudentToCourse implements EventSourcedContext
          */
         $this->apply(new StudentSubscribedToCourseEvent((string) $this->courseId, (string) $this->studentId));
 
-        if ($this->capacityCount >= $this->courseSubscriptionCount+1) {
+        if ($this->courseSubscriptionCount+1 >= $this->capacityCount) {
             $this->apply(new CourseFullyBookedEvent((string) $this->courseId));
         }
     }
@@ -88,6 +88,7 @@ final class SubscribeStudentToCourse implements EventSourcedContext
     {
         $this->courseId = new CourseId($event->courseId);
         $this->capacityCount = $event->capacity;
+        $this->courseSubscriptionCount = 0;
     }
 
     #[DomainEventSubscriber]
@@ -107,7 +108,10 @@ final class SubscribeStudentToCourse implements EventSourcedContext
     #[DomainEventSubscriber]
     private function onStudentSubscribedToCourseEvent(StudentSubscribedToCourseEvent $event): void
     {
-        if ($this->studentId->equals(new StudentId($event->studentId)) && $this->courseId->equals(new CourseId($event->courseId))) {
+        if (isset($this->studentId) &&
+            $this->studentId->equals(new StudentId($event->studentId)) &&
+            $this->courseId->equals(new CourseId($event->courseId))
+        ) {
             ++$this->studentSubscriptionCount;
             $this->isSubscribed = true;
         }
@@ -118,7 +122,10 @@ final class SubscribeStudentToCourse implements EventSourcedContext
     #[DomainEventSubscriber]
     private function onStudentUnsubscribedFromCourseEvent(StudentUnsubscribedFromCourseEvent $event): void
     {
-        if ($this->studentId->equals(new StudentId($event->studentId)) && $this->courseId->equals(new CourseId($event->courseId))) {
+        if (isset($this->studentId) &&
+            $this->studentId->equals(new StudentId($event->studentId)) &&
+            $this->courseId->equals(new CourseId($event->courseId))
+        ) {
             --$this->studentSubscriptionCount;
             $this->isSubscribed = false;
         }
