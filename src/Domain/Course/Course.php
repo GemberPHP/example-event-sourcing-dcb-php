@@ -30,7 +30,7 @@ final class Course implements EventSourcedContext
         return $course;
     }
 
-    public function changeName(string $name): void
+    public function rename(string $name): void
     {
         /*
          * Guard for idempotency.
@@ -42,7 +42,7 @@ final class Course implements EventSourcedContext
         /*
          * Apply events when all business rules are met.
          */
-        $this->apply(new CourseNameChangedEvent((string) $this->courseId, $name));
+        $this->apply(new CourseRenamedEvent((string) $this->courseId, $name));
     }
 
     /*
@@ -57,7 +57,7 @@ final class Course implements EventSourcedContext
     }
 
     #[DomainEventSubscriber]
-    private function onCourseNameChangedEvent(CourseNameChangedEvent $event): void
+    private function onCourseNameChangedEvent(CourseRenamedEvent $event): void
     {
         $this->name = $event->name;
     }

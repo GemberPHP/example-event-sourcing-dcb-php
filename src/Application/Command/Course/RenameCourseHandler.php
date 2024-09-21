@@ -7,7 +7,7 @@ namespace Gember\ExampleEventSourcingDcb\Application\Command\Course;
 use Gember\ExampleEventSourcingDcb\Domain\Course\Course;
 use Gember\ExampleEventSourcingDcb\Domain\Course\CourseId;
 
-final readonly class ChangeCourseNameHandler
+final readonly class RenameCourseHandler
 {
     /**
      * @param ContextRepository<Course> $repository
@@ -16,11 +16,11 @@ final readonly class ChangeCourseNameHandler
         private ContextRepository $repository,
     ) {}
 
-    public function __invoke(ChangeCourseNameCommand $command): void
+    public function __invoke(RenameCourseCommand $command): void
     {
         $course = $this->repository->get(Course::class, new CourseId($command->courseId));
 
-        $course->changeName($command->name);
+        $course->rename($command->name);
 
         $this->repository->save($course);
     }
