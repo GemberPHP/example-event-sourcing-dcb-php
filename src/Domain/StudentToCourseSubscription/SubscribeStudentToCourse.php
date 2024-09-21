@@ -74,7 +74,7 @@ final class SubscribeStudentToCourse implements EventSourcedContext
          */
         $this->apply(new StudentSubscribedToCourseEvent((string) $this->courseId, (string) $this->studentId));
 
-        if ($this->courseSubscriptionCount+1 >= $this->capacityCount) {
+        if ($this->courseSubscriptionCount >= $this->capacityCount) {
             $this->apply(new CourseFullyBookedEvent((string) $this->courseId));
         }
     }
