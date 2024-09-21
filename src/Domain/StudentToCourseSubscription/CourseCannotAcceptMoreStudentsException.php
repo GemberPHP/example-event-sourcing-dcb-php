@@ -10,6 +10,6 @@ final class CourseCannotAcceptMoreStudentsException extends Exception
 {
     public static function create(): self
     {
-        return new self('Course cannot accept more than students');
+        return new self('Course cannot accept more students');
     }
 }
