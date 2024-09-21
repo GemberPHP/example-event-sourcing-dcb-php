@@ -29,14 +29,14 @@ final readonly class SubscribeStudentToCourseHandler
      */
     public function __invoke(SubscribeStudentToCourseCommand $command): void
     {
-        $decision = $this->repository->get(
+        $context = $this->repository->get(
             SubscribeStudentToCourse::class,
             new CourseId($command->courseId),
             new StudentId($command->studentId),
         );
 
-        $decision->subscribe();
+        $context->subscribe();
 
-        $this->repository->save($decision);
+        $this->repository->save($context);
     }
 }

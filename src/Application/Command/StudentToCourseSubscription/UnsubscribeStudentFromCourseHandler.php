@@ -25,14 +25,14 @@ final readonly class UnsubscribeStudentFromCourseHandler
      */
     public function __invoke(UnsubscribeStudentFromCourseCommand $command): void
     {
-        $decision = $this->repository->get(
+        $context = $this->repository->get(
             UnsubscribeStudentFromCourse::class,
             new CourseId($command->courseId),
             new StudentId($command->studentId),
         );
 
-        $decision->unsubscribe();
+        $context->unsubscribe();
 
-        $this->repository->save($decision);
+        $this->repository->save($context);
     }
 }

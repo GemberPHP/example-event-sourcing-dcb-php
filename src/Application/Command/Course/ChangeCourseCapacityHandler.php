@@ -22,10 +22,10 @@ final readonly class ChangeCourseCapacityHandler
      */
     public function __invoke(ChangeCourseCapacityCommand $command): void
     {
-        $decision = $this->repository->get(ChangeCourseCapacity::class, new CourseId($command->courseId));
+        $context = $this->repository->get(ChangeCourseCapacity::class, new CourseId($command->courseId));
 
-        $decision->changeCapacity($command->capacity);
+        $context->changeCapacity($command->capacity);
 
-        $this->repository->save($decision);
+        $this->repository->save($context);
     }
 }
