@@ -1,24 +1,23 @@
-# example-event-sourcing-dcb-php
+# Event Sourcing with DCB in PHP
 Example project (Proof of Concept) with Event Sourcing in PHP using the 'Dynamic Consistency Boundary' pattern (DCB).
 
-There are currently no actual (PHP) libraries yet following this pattern (as it is still conceptual, and maybe controversial).
-
 ## Background
-The 'Dynamic Consistency Boundary' pattern is a thought process introduced by Sara Pellegrini in 2023,
-explained in her talk ["The Aggregate is dead. Long live the Aggregate!"](https://sara.event-thinking.io/2023/04/kill-aggregate-chapter-1-I-am-here-to-kill-the-aggregate.html). 
+'Dynamic Consistency Boundary' pattern is introduced by Sara Pellegrini in 2023 as a thought process (rethinking Event Sourcing).
+Explained in her talk: ["The Aggregate is dead. Long live the Aggregate!"](https://sara.event-thinking.io/2023/04/kill-aggregate-chapter-1-I-am-here-to-kill-the-aggregate.html). 
 
-Currently, Event Sourced applications rely on a consistent boundary of aggregates, as defined in the 'blue book':
+Currently, existing Event Sourcing frameworks rely on a consistent boundary within _aggregates_ (primary citizen), as explained in 'The blue book':
 
 > Cluster the ENTITIES and VALUE OBJECTS into AGGREGATES and define boundaries around each.
 Choose one ENTITY to be the root of each AGGREGATE, and control all access to the objects inside the boundary through the root. Allow external objects to hold reference to the root only.
 
-_From "Domain-Driven Design: Tackling Complexity in the Heart of Software" by Eric Evans (the 'blue book')_
+_From "Domain-Driven Design: Tackling Complexity in the Heart of Software" by Eric Evans (the 'blue book')._
+
+However, Event Sourcing with DCB has some advantages/solves some pitfalls over a traditional aggregate setup. 
 
 ### Reusable domain events
-This consistent boundary enforces a strict 1-on-1 relation between an aggregate and a domain event. 
-It makes the aggregate internally consistent.
+Traditionally, a defined boundary enforces a strict 1-on-1 relation between an aggregate and a domain event.
+This makes the aggregate internally consistent. The DCB pattern removes this strict 1-on-1 relation. Instead, a domain event is considered as a _Pure event_.
 
-The DCB pattern removes this strict 1-on-1 relation. Instead, a domain event is considered as a _Pure event_.
 This allows us to create business decision/domain models based on a **subset of specific domain events** as well as from **multiple domain identities**.
 
 These business decision models fit very well in how [EventStorming](https://github.com/ddd-crew/eventstorming-glossary-cheat-sheet) considers aggregates currently.
@@ -39,6 +38,7 @@ The DCB pattern removes this blocking behavior when handled by multiple business
 More details, pros and cons explained (highly recommended):
 - https://sara.event-thinking.io/2023/04/kill-aggregate-chapter-1-I-am-here-to-kill-the-aggregate.html
 - https://www.youtube.com/watch?v=wXt54BawI-8
+- https://www.axoniq.io/blog/rethinking-microservices-architecture-through-dynamic-consistency-boundaries
 
 ## This example project
 _The DCB pattern is an interesting concept, but this does not advocate to remove aggregates completely.
@@ -53,7 +53,7 @@ Inspired by other PHP libraries such as [Broadway](https://github.com/broadway),
 
 ### Domain code only
 This project does not (yet) define the internals of an event store, as it is actually interesting to look at how to implement the DCB pattern in a business domain; 
-how does a business decision model look like? How does it relate to a 'classic' aggregate? 
+how does a business decision model look like? How does it relate to a traditional aggregate? 
 
 If the event store implementation (and all of its required related code) would be part of this exercise, its easy to get bogged down into technical details instead.
 
